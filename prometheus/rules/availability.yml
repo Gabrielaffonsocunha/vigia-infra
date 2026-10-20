@@ -1,0 +1,27 @@
+groups:
+  - name: disponibilidade
+    rules:
+      - alert: EndpointIndisponivel
+        expr: probe_success == 0
+        for: 2m
+        labels:
+          severidade: critica
+        annotations:
+          summary: "Endpoint {{ $labels.instance }} indisponível"
+          description: "O teste HTTP falha há pelo menos 2 minutos. Verifique DNS, conectividade e resposta do serviço."
+      - alert: LatenciaHTTPAlta
+        expr: probe_duration_seconds > 2
+        for: 5m
+        labels:
+          severidade: aviso
+        annotations:
+          summary: "Latência alta em {{ $labels.instance }}"
+          description: "A sondagem HTTP ultrapassou 2 segundos por 5 minutos."
+      - alert: ColetorSemDados
+        expr: up{job="node-exporter"} == 0
+        for: 2m
+        labels:
+          severidade: aviso
+        annotations:
+          summary: "Node Exporter sem dados"
+          description: "Prometheus não consegue coletar métricas do host monitorado."
