@@ -13,7 +13,7 @@ jobs:
         run: docker compose config --quiet
       - name: Validar Prometheus e regras
         run: |
-          docker run --rm -v "$PWD/prometheus:/etc/prometheus:ro" prom/prometheus:v2.55.1 promtool check config /etc/prometheus/prometheus.yml
-          docker run --rm -v "$PWD/prometheus/rules:/etc/prometheus/rules:ro" prom/prometheus:v2.55.1 promtool check rules /etc/prometheus/rules/availability.yml
+          docker run --rm -v "$PWD/prometheus:/etc/prometheus:ro" --entrypoint=/bin/promtool prom/prometheus:v2.55.1 check config /etc/prometheus/prometheus.yml
+          docker run --rm -v "$PWD/prometheus/rules:/etc/prometheus/rules:ro" --entrypoint=/bin/promtool prom/prometheus:v2.55.1 check rules /etc/prometheus/rules/availability.yml
       - name: Validar JSON do dashboard
         run: python -m json.tool grafana/dashboards/vigia-infra.json > /dev/null
