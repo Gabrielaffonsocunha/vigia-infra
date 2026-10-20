@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d12">
+  <title>Vigia Infra — prévia do painel</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b0d12;--panel:#12161e;--line:#272c37;--muted:#a1a8b5;--green:#69d9a0;--blue:#7db7ff}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#e7e9ee;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .layout{display:flex;min-height:100vh}.sidebar{width:220px;flex:0 0 220px;padding:25px 16px;background:#10131a;border-right:1px solid #242833}
+    .brand{font-size:19px;font-weight:700;margin:0 0 36px 8px}.brand span{color:#64d8a5}.nav{color:#9299a8;padding:10px 12px;border-radius:7px;margin:5px 0}.nav.active{background:#202832;color:#e7e9ee}
+    main{width:min(1120px,100%);padding:28px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}h1{font-size:24px;margin:0}.muted{color:#969dac}
+    .badge{color:#70e0ad;background:#153326;padding:6px 10px;border-radius:20px}.notice{margin:22px 0;padding:10px 13px;color:#c6b77d;background:#292518;border:1px solid #49402a;border-radius:8px;font-size:12px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:17px;min-width:0}
+    .label{color:var(--muted);font-size:12px;letter-spacing:.04em}.value{font-size:29px;font-weight:650;margin:8px 0 3px}.good{color:var(--green)}.blue{color:var(--blue)}.wide{grid-column:span 2}
+    .chart{width:100%;height:180px;margin-top:12px}.targets{display:grid;gap:11px;margin-top:14px}.target{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:8px}.rule{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+    .foot{margin-top:18px;color:#858d9c;font-size:12px}.foot code{color:#d5dae4}.links{margin-top:8px}.links a{color:#8dbfff;text-decoration:none}.links a:hover{text-decoration:underline}
+    @media(max-width:760px){.sidebar{display:none}main{padding:20px 14px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.top{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" aria-label="Navegação ilustrativa">
+    <div class="brand">◉ <span>Vigia</span> Infra</div>
+    <div class="nav active">▦ &nbsp; Visão geral</div><div class="nav">⌁ &nbsp; Endpoints</div>
+    <div class="nav">◷ &nbsp; Alertas</div><div class="nav">⚙ &nbsp; Coletores</div>
+  </aside>
+  <main>
+    <header class="top"><div><h1>Visão operacional</h1><div class="muted">Resumo de disponibilidade e coleta</div></div><div class="badge">● Ambiente monitorado</div></header>
+    <div class="notice"><strong>Prévia visual:</strong> os números são ilustrativos. Esta página não consulta o Prometheus; o dashboard real é servido pelo Grafana.</div>
+    <section class="grid" aria-label="Indicadores demonstrativos">
+      <article class="card"><div class="label">ENDPOINTS DISPONÍVEIS</div><div class="value good">3 / 3</div><div class="muted">Todos respondendo</div></article>
+      <article class="card"><div class="label">LATÊNCIA HTTP</div><div class="value blue">182 <small>ms</small></div><div class="muted">Média no período</div></article>
+      <article class="card"><div class="label">COLETORES ATIVOS</div><div class="value good">2 / 2</div><div class="muted">Prometheus e exporters</div></article>
+      <article class="card wide"><div class="label">DISPONIBILIDADE E LATÊNCIA</div>
+        <svg class="chart" viewBox="0 0 700 180" preserveAspectRatio="none" role="img" aria-label="Gráfico demonstrativo de latência">
+          <g stroke="#29303b" stroke-width="1"><path d="M40 25H690 M40 65H690 M40 105H690 M40 145H690"/></g>
+          <path d="M40 110 C90 103 100 80 150 88 S220 118 270 91 S350 65 400 79 S480 102 520 67 S610 78 690 45" fill="none" stroke="#6caeff" stroke-width="3"/>
+          <path d="M40 110 C90 103 100 80 150 88 S220 118 270 91 S350 65 400 79 S480 102 520 67 S610 78 690 45 L690 160 L40 160Z" fill="#6caeff" opacity=".08"/>
+          <g fill="#8d95a3" font-size="11"><text x="40" y="174">09:00</text><text x="245" y="174">09:20</text><text x="455" y="174">09:40</text><text x="650" y="174">10:00</text></g>
+        </svg>
+      </article>
+      <article class="card"><div class="label">ALVOS MONITORADOS</div><div class="targets">
+        <div class="target"><span><i class="dot"></i>Site principal</span><span class="good">Online</span></div>
+        <div class="target"><span><i class="dot"></i>API de exemplo</span><span class="good">Online</span></div>
+        <div class="target"><span><i class="dot"></i>Prometheus</span><span class="good">Online</span></div>
+      </div><div class="rule muted">Última coleta: há 15 segundos</div></article>
+    </section>
+    <footer class="foot">Para testar a stack real: execute <code>docker compose up -d</code> e abra <code>http://localhost:3000</code> para acessar o Grafana. O Prometheus fica em <code>http://localhost:9090</code>.
+      <div class="links"><a href="https://github.com/Gabrielaffonsocunha/vigia-infra">Voltar ao repositório</a></div>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
